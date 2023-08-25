@@ -22,12 +22,12 @@ def advertisements_post(request):
     if request.method == "POST":
         form = Advertisements81Form(request.POST, request.FILES)
         if form.is_valid():
-            advertisement = Advertisements81(**form.cleaned_data)
-            advertisement.user = request.user
-            advertisement.save()
+            new_advertisement = form.save(commit = False)
+            new_advertisement.user = request.user
+            new_advertisement.save()
             url = reverse('main-page')
             return HttpResponseRedirect(url)
     else:
         form = Advertisements81Form()
     context = {'form': form}
-    return render(request, 'advertisement_post.html')
+    return render(request, 'advertisement_post.html', context)
