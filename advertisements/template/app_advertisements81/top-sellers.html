@@ -5,17 +5,6 @@
 {% endblock %}
 
 {% block content %}
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/fontello.css">
-  <title>Index</title>
-</head>
-
-<body>
 <ul class="nav nav-pills sticky-top bg-white nav-fill">
     <li class="nav-item">
       <a class="nav-link"  href="/">
@@ -27,30 +16,33 @@
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="advertisement-post">
+      <a class="nav-link" href="{% url 'adv-post' %}">
         <span style="font-weight: bold;">Разместить объявление</span>
       </a>
     </li>
+    {% if not user.is_authenticated %}
     <li class="nav-item">
-      <a class="nav-link" href="register">
-        <span style="font-weight: bold;">Регистрация</span>
+      <a class="nav-link" href="{% url 'register' %}">
+       <span style="font-weight: bold;">Регистрация</span>
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="login">
-        <span style="font-weight: bold;">Войти</span>
+      <a class="nav-link" href="{% url 'login' %}">
+       <span style="font-weight: bold;">Войти</span>
       </a>
     </li>
+    {% else %}
     <li class="nav-item">
-      <a class="nav-link" href="profile">
-        <span style="font-weight: bold;">Профиль</span>
+      <a class="nav-link" href="{% url 'profile' %}">
+       <span style="font-weight: bold;">Профиль</span>
       </a>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="#">
-        <span style="font-weight: bold;">Выйти</span>
+       <span style="font-weight: bold;">Выйти</span>
       </a>
     </li>
+    {% endif %}
 </ul>
 <div class="row">
     <div class="col" style="margin: 50px;">
@@ -121,6 +113,3 @@
 {% block script %}
 <script src="js/bootstrap.bundle.min.js"></script>
 {% endblock %}
-</body>
-
-</html>

@@ -1,21 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block title %}
 Главная
 {% endblock %}
 
 {% block content %}
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
-  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'css/fontello.css' %}">
-  <title>Index</title>
-</head>
-
-<body>
 <ul class="nav nav-pills sticky-top bg-white nav-fill">
   <li class="nav-item">
     <a class="nav-link active" aria-current="page" href="{% url 'main-page' %}">
@@ -27,22 +17,24 @@
     </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="{% url 'adv_post' %}">
+    <a class="nav-link" href="{% url 'adv-post' %}">
       <span style="font-weight: bold;">Разместить объявление</span>
     </a>
   </li>
+  {% if not user.is_authenticated %}
   <li class="nav-item">
-    <a class="nav-link" href="register">
+    <a class="nav-link" href="{% url 'register' %}">
       <span style="font-weight: bold;">Регистрация</span>
     </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="login">
+    <a class="nav-link" href="login.html">
       <span style="font-weight: bold;">Войти</span>
     </a>
   </li>
+  {% else %}
   <li class="nav-item">
-    <a class="nav-link" href="profile">
+    <a class="nav-link" href="profile.html">
       <span style="font-weight: bold;">Профиль</span>
     </a>
   </li>
@@ -51,8 +43,8 @@
       <span style="font-weight: bold;">Выйти</span>
     </a>
   </li>
+  {% endif %}
 </ul>
-
 <div id="carouselExampleControls" class="carousel slide bg-primary" data-bs-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
@@ -97,7 +89,7 @@
     </ul>
     <form class="row g-3">
       <div class="col-auto w-50">
-        <input type="text" class="form-control">
+        <input name="query" value="{% if title %}{{title}}{% endif %}" type="text" class="form-control">
       </div>
       <div class="col-auto">
         <button type="submit" class="btn btn-success mb-3">Найти</button>
@@ -109,7 +101,7 @@
     <div class="card mb-2" style="max-width: 1200px; margin-top: 20px;">
       <div class="row g-0">
         <div class="col-md-4">
-          <a href="advertisement.html" class="nav-link">
+          <a href="{{ adv.get_absolute_html }}" class="nav-link">
             <img src="{%if adv.image %} {{ adv.image.url }} {% else %} {% static 'img/adv.png' %} {% endif %}" class='img-flud rounded-start', alt="Cart title">
           </a>
         </div>
@@ -118,7 +110,7 @@
             <h5 class="card-title">
               <a href="advertisement.html" class="nav-link"><strong>{{ adv.title }}</strong></a>
             </h5>
-            <a href="advertisement.html" class="nav-link">
+            <a href="{{ adv.get_absolute_html }}" class="nav-link">
               <p class="card-text">
                 {{ adv.description }}
               </p>
@@ -165,10 +157,8 @@
   </nav>
 </footer>
 {% endblock %}
-
 {% block script %}
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 {% endblock %}
-</body>
 
 </html>
